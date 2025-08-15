@@ -1,38 +1,33 @@
-# Heading One Architecture Diagram Generator Tool
-This project is an AI-powered tool that generates cloud architecture diagrams from natural language descriptions. It combines a graphical user interface (GUI), a powerful local Large Language Model (LLM) via Ollama, and the popular diagrams Python library to create a seamless text-to-diagram workflow. It has the ability to generate diagrams from Azure, AWS, GCP, On-Premises platform and infratructure as a service architecture diagrams. The output can be both in PNG and SVG formats.
+# Architecture Diagram Generator Tool
 
-# Code Explanation
+This project is an AI-powered tool that generates cloud architecture diagrams from natural language descriptions. It combines a graphical user interface (GUI) with a powerful local Large Language Model (LLM).
 
-This project is an AI-powered tool that generates cloud architecture diagrams from natural language descriptions. It cleverly combines a graphical user interface (GUI), a powerful local Large Language Model (LLM) via Ollama, and the popular diagrams Python library to create a seamless text-to-diagram workflow.
+## Code Explanation
 
-The architecture is split into two main files:
+This project is divided into two main components:
 
-* [prompts.py](https://github.com/dannyray2805/arch_diag_generator/blob/main/prompts.py): The "brain" of the operation. It contains the master prompt template used to instruct the LLM.
-* [diagram_generator_v3_diagrams.py](https://github.com/dannyray2805/arch_diag_generator/blob/main/diagram_generator_v3_diagrams.py): The main application. It provides the GUI, orchestrates the interaction with the LLM, processes the response, and renders the final diagram.
+### 1. [prompts.py](https://github.com/dannyray2805/arch_diag_generator/blob/main/prompts.py) - The Brain
+- **Purpose**: Contains the master prompt template used to instruct the LLM.
+- **Key Concepts**:
+  - **Persona Setting**: Sets context by instructing the LLM to act as "an expert Python developer specialized in creating architecture diagrams."
+  - **Strict Rules**: Provides "CRITICAL RULES" to constrain the LLM's output, ensuring the generated code is executable.
+  - **Few-Shot Learning**: Includes five high-quality examples (e.g., Azure 3-tier, AWS Landing Zone) for better code generation.
+  - **Templating**: Utilizes placeholders like `{user_input}`, `{fontsize}`, `{bgcolor}`, and `{layout_dir}` for user customization.
 
-Key Concepts:
+> **Note**: This file doesn't execute logic but provides instructions for reliable AI code generation.
 
-Persona Setting: The prompt begins by telling the LLM to act as "an expert Python developer specialized in creating architecture diagrams." This sets the context and encourages the model to generate high-quality, relevant code.
-Strict Rules: A set of "CRITICAL RULES" are provided to constrain the LLM's output. This is vital for ensuring the generated code is directly executable by the main application. It prevents the model from adding conversational text, import statements, or other code that would cause errors.
-Few-Shot Learning: The template includes five complete, high-quality examples of diagrams code for various architectures (Azure 3-tier, AWS Landing Zone, etc.). This is a powerful technique that shows the model exactly what a good response looks like, significantly improving the quality and consistency of its output.
-Templating: The prompt uses placeholders like {user_input}, {fontsize}, {bgcolor}, and {layout_dir}. The main application replaces these with the user's text and selected style options before sending the final prompt to the LLM.
-In essence, this file doesn't execute any logic itself but provides the carefully crafted instructions that make the AI's code generation reliable.
-
-2. diagram_generator_v3_diagrams.py - The Orchestrator
-This is the main, executable script that brings everything together. It provides a user-friendly GUI built with Tkinter and manages the entire workflow from user input to final diagram image.
-
-Workflow:
-
-User Input: The user types a description of the desired architecture (e.g., "a 3-tier web app in Azure") into the GUI and selects styling options like layout direction and colors.
-Prompt Formatting: The application takes the user's input and style choices and formats the PROMPT_TEMPLATE from prompts.py into a complete prompt.
-LLM Code Generation: It sends this detailed prompt to a locally running Ollama LLM (e.g., llama3). The LLM, guided by the prompt, generates Python diagrams code.
-Code Extraction & Cleaning: The application receives the raw text from the LLM and intelligently extracts only the Python code block, discarding any surrounding text or markdown fences.
-Parameter Injection: It then injects a standard set of import statements (DIAGRAMS_IMPORTS) into the code. Crucially, it uses the _force_diagram_params function to modify the with Diagram(...) line, ensuring the user's GUI style selections (like layout and color) override anything the AI might have generated. It also sets the output filename and format (.svg, .png).
-Execution & Rendering: The final, complete Python script is written to a temporary file. The application then executes this script in a separate subprocess. The diagrams library code runs and, using the Graphviz backend, renders the final SVG and PNG image files.
-GUI Responsiveness: The entire generation and rendering process runs in a separate thread (GenerationThread) to prevent the GUI from freezing, providing a smooth user experience. A queue is used to pass status updates, results, and errors back to the main GUI thread.
-Key Architectural Features:
-
-GUI (gui_main): A user-friendly interface built with Python's standard tkinter library.
-LLM Integration (ollama): Communicates with the local LLM service.
-Robust Rendering (_run_python_script): Safely executes the generated code in an isolated environment to produce the diagram, capturing any errors for debugging.
-Extensive Logging: The application logs detailed information about every step to both the console and diagram_generator.log, which is invaluable for troubleshooting.
+### 2. [diagram_generator_v3_diagrams.py](https://github.com/dannyray2805/arch_diag_generator/blob/main/diagram_generator_v3_diagrams.py) - The Orchestrator
+- **Purpose**: The main executable script offering a user-friendly GUI and managing the entire workflow.
+- **Workflow**:
+  1. **User Input**: Accepts architecture descriptions and style preferences via the GUI.
+  2. **Prompt Formatting**: Formats the user's input into a complete prompt using `PROMPT_TEMPLATE` from `prompts.py`.
+  3. **LLM Code Generation**: Sends the prompt to a locally running LLM (e.g., llama3) to generate Python diagrams code.
+  4. **Code Extraction & Cleaning**: Extracts Python code blocks from the LLM output while discarding unnecessary text.
+  5. **Parameter Injection**: Adds import statements (`DIAGRAMS_IMPORTS`) and modifies the `with Diagram(...)` line using `_force_diagram_params`.
+  6. **Execution & Rendering**: Executes the Python script, rendering the diagram using `diagrams` library.
+  7. **GUI Responsiveness**: Runs the process in a separate thread for a smooth user experience.
+- **Key Features**:
+  - **GUI**: Built with `tkinter` for user-friendly interaction.
+  - **LLM Integration**: Communicates with a local LLM service.
+  - **Robust Rendering**: Safely executes generated code in an isolated environment.
+  - **Extensive Logging**: Logs every step for troubleshooting.
