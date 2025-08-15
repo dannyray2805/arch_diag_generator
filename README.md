@@ -53,7 +53,7 @@ The application follows a simple yet powerful workflow:
         ollama pull llama3
         ```
     -  Ensure the Ollama application is running in the background.
-4. **Running the Application**
+4.    **Running the application**
         ```bash
         python diagram_generator_v3_diagrams.py
         ```
