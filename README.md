@@ -1,4 +1,4 @@
-## Key Features of Version 3
+## Key Features
 
 - **AI-Powered Diagram Generation**: Leverages a local LLM (e.g., `llama3`) to convert architecture descriptions into Python code using the `diagrams` library.
 - **Enhanced GUI**: Built with `tkinter`, offering an intuitive interface for user interaction.
