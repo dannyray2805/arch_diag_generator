@@ -32,10 +32,31 @@ The application follows a simple yet powerful workflow:
 5.  **Display**: The final diagram is automatically opened for viewing.
 
 ## Setup and Usage
-1.  Prerequisites
-  -  Python 3.9+
-  -  Graphviz: The `diagrams` library requires Graphviz to be installed and for the dot command to be in your system's PATH. You can download it from [Download](graphviz.org/download).
-  -  Ollama: You need to have the Ollama service running locally. Download it from ollama.com.
+1.  **Prerequisites**
+    -  Python 3.9+
+    -  Graphviz: The `diagrams` library requires Graphviz to be installed and for the dot command to be in your system's PATH. You can download it from [Download](graphviz.org/download).
+    -  Ollama: You need to have the Ollama service running locally. Download it from ollama.com.
+2.  **Installation**
+       ```bash
+       # Clone the repository
+       git clone <your-repo-url>
+       cd <your-repo-directory>
+       # Create and activate a virtual environment
+       python -m venv venv
+       source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+       # Install the required Python packages
+       pip install -r requirements.txt
+       ```
+3.  **Ollama Setup**
+    -  Pull a model that is good at code generation. Llama 3 is recommended.
+        ```bash
+        ollama pull llama3
+        ```
+    -  Ensure the Ollama application is running in the background.
+4. **Running the Application**
+        ```bash
+        python diagram_generator_v3_diagrams.py
+        ```
 
 ## Behind the Scenes
 This project is an AI-powered tool that generates cloud architecture diagrams from natural language descriptions. It cleverly combines a graphical user interface (GUI), a powerful local Large Language Model (LLM) via Ollama, and the popular `diagrams` Python library to create a seamless text-to-diagram workflow. The architecture is split into two main files:
