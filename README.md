@@ -7,7 +7,7 @@ This project is an AI-powered tool that generates cloud architecture diagrams fr
 
 The architecture is split into two main files:
 
-* [prompts.py].(): The "brain" of the operation. It contains the master prompt template used to instruct the LLM.
+* [prompts.py].(https://www.github.com/dannyray2805/arch_diag_generator/blob/main/prompts.py): The "brain" of the operation. It contains the master prompt template used to instruct the LLM.
 * diagram_generator_v3_diagrams.py: The main application. It provides the GUI, orchestrates the interaction with the LLM, processes the response, and renders the final diagram.
 
 Key Concepts:
