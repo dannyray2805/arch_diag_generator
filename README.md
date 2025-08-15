@@ -1,4 +1,4 @@
-# Heading One Architecture Diagrams Generator using LLM and Python Diagrams Library
+# Architecture Diagrams Generator using LLM and Python Diagrams Library
 ## Key Features
 
 - **AI-Powered Diagram Generation**: Leverages a local LLM (e.g., `llama3`) to convert architecture descriptions into Python code using the `diagrams` library.
