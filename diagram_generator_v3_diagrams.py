@@ -354,11 +354,8 @@ def gui_main():
     status_frame = ttk.Frame(root, padding=10)
     status_frame.pack(fill="x")
 
-    status_label = ttk.Label(status_frame, text="", wraplength=600)
-    status_label.pack(anchor="w")
-
-    progress_bar = ttk.Progressbar(status_frame, mode="indeterminate")
-    progress_bar.pack(fill="x", pady=5)
+    progress_display = ProgressDisplay(status_frame)
+    progress_display.pack(fill='x', expand=True)
 
     # --- Action Buttons ---
     button_frame = ttk.Frame(root, padding=10)
@@ -369,16 +366,19 @@ def gui_main():
             while True:
                 msg_type, msg_payload = progress_queue.get_nowait()
                 if msg_type == 'status':
-                    status_label.config(text=msg_payload)
+                    progress_display.step_label.config(text=msg_payload)
                 elif msg_type == 'success':
-                    status_label.config(text=f"✅ Diagram saved to {msg_payload}.svg / .png")
-                    progress_bar.stop()
+                    messagebox.showinfo("Success", f"Diagram generated and saved to:\n{msg_payload}.svg / .png")
+                    progress_display.step_label.config(text=f"✅ Success! Diagram saved.", foreground="green")
+                    progress_display.progress_bar.stop()
+                    progress_display.progress_bar['value'] = 100
                 elif msg_type == 'error':
                     messagebox.showerror("Error", msg_payload)
-                    progress_bar.stop()
+                    progress_display.step_label.config(text=f"❌ Error! Check logs.", foreground="red")
+                    progress_display.progress_bar.stop()
                 elif msg_type == 'done':
                     generate_button.config(state=tk.NORMAL)
-                    progress_bar.stop()
+                    progress_display.progress_bar.stop()
         except queue.Empty:
             pass
         finally:
@@ -392,7 +392,6 @@ def gui_main():
             return
 
         progress_queue.put(('status', "Generating diagram... Please wait."))
-        progress_bar.start()
 
         try:
             # Pass parameters into the AI prompt
@@ -430,7 +429,9 @@ def gui_main():
 
     def start_generate_thread():
         generate_button.config(state=tk.DISABLED)
-        Thread(target=generate_task, daemon=True).start()
+        progress_display.start(total_steps=3)  # A nominal number of steps to reset the UI
+        progress_display.progress_bar.start(10)
+        Thread(target=generate_task, name="GenerationThread", daemon=True).start()
 
     generate_button = ttk.Button(button_frame, text="Generate Diagram", command=start_generate_thread)
     generate_button.pack(side="left", padx=5)
