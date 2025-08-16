@@ -115,7 +115,7 @@ This example demonstrates a scalable web application using Azure App Service and
 from diagrams import Diagram, Cluster, Edge
 from diagrams.azure.compute import AppServices
 from diagrams.azure.database import CosmosDb
-from diagrams.azure.network import ApplicationGateway, PrivateDnsZones
+from diagrams.azure.network import ApplicationGateway, DNSPrivateZones, DNSZones
 from diagrams.azure.identity import ActiveDirectory
 
 with Diagram("Serverless Web App", show=False, filename="azure_serverless_web_app", graph_attr={{"fontsize": "{fontsize}", "bgcolor": "{bgcolor}", "rankdir": "{layout_dir}"}}):
@@ -179,18 +179,18 @@ from diagrams import Diagram, Cluster, Edge
 from diagrams.azure.compute import KubernetesServices
 from diagrams.azure.devops import Pipelines
 from diagrams.azure.management import Monitor, KeyVault
-from diagrams.azure.network import ApplicationGateway, DnsZones, VpnGateways
+from diagrams.azure.network import ApplicationGateway, DnsZones, VpnGateway
 from diagrams.azure.storage import StorageAccounts
 from diagrams.azure.database import CosmosDb
 
 with Diagram("AKS Microservices", show=False, filename="azure_aks_microservices", graph_attr={{"fontsize": "{fontsize}", "bgcolor": "{bgcolor}", "rankdir": "{layout_dir}"}}):
     with Cluster("Azure Virtual Network"):
         with Cluster("VPN Gateway"):
-            vpn_gw = VpnGateways("On-Premises VPN")
+            vpn_gw = VpnGateway("On-Premises VPN")
         
         with Cluster("AKS Cluster"):
             aks_cluster = KubernetesServices("AKS Cluster")
-            dns = DnsZones("DNS Zone")
+            dns = DNSZones("DNS Zone")
             app_gateway = ApplicationGateway("App Gateway")
             dns >> app_gateway >> aks_cluster
             
