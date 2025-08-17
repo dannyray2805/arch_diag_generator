@@ -44,7 +44,7 @@ The application follows a simple yet powerful workflow:
 
 2. **Installation**
 
-       ```bash
+   ```bash
        # Clone the repository
        git clone <your-repo-url>
        cd <your-repo-directory>
@@ -53,23 +53,23 @@ The application follows a simple yet powerful workflow:
        source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
        # Install the required Python packages
        pip install -r requirements.txt
-       ```
+   ```
 
 3. **Ollama Setup**
 
     - Pull a model that is good at code generation. Llama 3 is recommended.
 
-            ```bash
-            ollama pull llama3
-            ```
+      ```bash
+      ollama pull llama3
+      ```
 
     - Ensure the Ollama application is running in the background.
 
 4. **Running the application**
 
-        ```bash
+   ```bash
         python diagram_generator_v3_diagrams.py
-        ```
+   ```
 
 ## Behind the Scenes
 
