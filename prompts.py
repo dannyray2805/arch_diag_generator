@@ -317,6 +317,151 @@ with Diagram("Enterprise Landing Zone (Multi-Account, Multi-Region)", show=False
 
     # Cross-region replication (Prod DBs)
     db1 - d3
+```
+
+**EXAMPLE 6: Cookie-based Authentication Flow**
+This example illustrates a cookie-based authentication flow, showing the interaction between the user, browser, web application, and database.
+
+```python
+from diagrams import Diagram, Cluster, Edge
+from diagrams.custom import Custom
+
+with Diagram("Cookie-based Authentication", show=False, direction="LR", filename="cookie-based_authentication_icons", graph_attr={{"fontsize": "{fontsize}", "bgcolor": "{bgcolor}", "rankdir": "{layout_dir}"}}):
+
+    with Cluster("Client Side"):
+        user = Custom("User", "./icons/user.png")
+        browser = Custom("Browser", "./icons/browser.png")
+
+    with Cluster("Server Side"):
+        app = Custom("Web App", "./icons/server.png")
+        db = Custom("App DB", "./icons/db.png")
+        keymgmt = Custom("Key Mgmt", "./icons/key.png")
+
+    user >> Edge(color="#17becf", label="1. Login creds") >> browser
+    browser >> Edge(color="#17becf", label="2. POST /login") >> app
+    app >> Edge(color="#17becf", label="3. Validate creds") >> db
+    app >> Edge(color="#17becf", label="4. Generate cookie (signed)") >> keymgmt
+    app >> Edge(color="#17becf", label="5. Set-Cookie") >> browser
+    browser >> Edge(color="#17becf", label="6. Request with cookie") >> app
+```
+**EXAMPLE 7: JWT-based Authentication Flow**
+This example illustrates a JWT-based authentication flow, showing the interaction between the client, identity provider, and resource server.
+
+```python
+from diagrams import Diagram, Cluster, Edge
+from diagrams.custom import Custom
+
+with Diagram("JWT-based Authentication", show=False, direction="LR", filename="jwt-based_authentication_icons", graph_attr={{"fontsize": "{fontsize}", "bgcolor": "{bgcolor}", "rankdir": "{layout_dir}"}} ):
+
+    with Cluster("Client"):
+        client = Custom("Client", "./icons/browser.png")
+
+    with Cluster("Identity Provider"):
+        idp = Custom("IdP", "./icons/idp.png")
+        keys = Custom("JWKS Keys", "./icons/key.png")
+
+    with Cluster("Resource Server"):
+        api = Custom("API Server", "./icons/api.png")
+
+    client >> Edge(color="#ff7f0e", label="1. Request token") >> idp
+    idp >> Edge(color="#ff7f0e", label="2. Return JWT") >> client
+    client >> Edge(color="#ff7f0e", label="3. Access API with JWT") >> api
+    api >> Edge(color="#ff7f0e", label="4. Verify JWT") >> keys
+```
+**EXAMPLE 8: OAuth2 Authentication Flow**
+This example illustrates an OAuth2 authentication flow, showing the interaction between the user, client app, authorization server, and resource server.
+
+```python
+from diagrams import Diagram, Cluster, Edge
+from diagrams.custom import Custom
+
+with Diagram("OAuth2 Authentication", show=False, direction="LR", filename="oauth2_authentication_icons", graph_attr={{"fontsize": "{fontsize}", "bgcolor": "{bgcolor}", "rankdir": "{layout_dir}"}}):
+
+    with Cluster("Client App"):
+        client = Custom("Client App", "./icons/browser.png")
+
+    with Cluster("Resource Owner"):
+        user = Custom("User", "./icons/user.png")
+
+    with Cluster("Authorization Server"):
+        authz = Custom("Authorization Server", "./icons/idp.png")
+
+    with Cluster("Resource Server"):
+        resource = Custom("Resource Server", "./icons/api.png")
+
+    user >> Edge(color="#d62728", label="1. Authorize") >> client
+    client >> Edge(color="#d62728", label="2. Auth Request") >> authz
+    authz >> Edge(color="#d62728", label="3. Auth Code / Token") >> client
+    client >> Edge(color="#d62728", label="4. Access Resource") >> resource
+```
+**EXAMPLE 9: Session-based Authentication Flow**
+This example illustrates a session-based authentication flow, showing the interaction between the user, browser, web application, session store, and database.
+
+```python
+from diagrams import Diagram, Cluster, Edge
+from diagrams.custom import Custom
+
+with Diagram("Session-based Authentication", show=False, direction="LR", filename="session-based_authentication_icons", graph_attr={{"fontsize": "{fontsize}", "bgcolor": "{bgcolor}", "rankdir": "{layout_dir}"}}):
+
+    with Cluster("Client Side"):
+        user = Custom("User", "./icons/user.png")
+        browser = Custom("Browser", "./icons/browser.png")
+
+    with Cluster("Server Side"):
+        app = Custom("Web App", "./icons/server.png")
+        session_store = Custom("Session Store", "./icons/key.png")
+        db = Custom("App DB", "./icons/db.png")
+
+    user >> Edge(color="#1f77b4", label="1. Login creds") >> browser
+    browser >> Edge(color="#1f77b4", label="2. POST /login") >> app
+    app >> Edge(color="#1f77b4", label="3. Verify creds") >> db
+    app << Edge(color="#1f77b4", style="dashed", label="4. Create session") << session_store
+    app >> Edge(color="#1f77b4", label="5. Set-Cookie: session_id") >> browser
+    browser >> Edge(color="#1f77b4", label="6. Authenticated Request") >> app
+```
+**EXAMPLE 10: Single Sign-On (SSO) Authentication Flow**
+This example illustrates a Single Sign-On (SSO) authentication flow, showing the interaction between the user, identity provider (IdP), and applications.
+
+```python
+from diagrams import Diagram, Cluster, Edge
+from diagrams.custom import Custom
+
+with Diagram("Single Sign-On (SSO)", show=False, direction="LR", filename="single_sign-on_(sso)_icons", graph_attr={{"fontsize": "{fontsize}", "bgcolor": "{bgcolor}", "rankdir": "{layout_dir}"}}):
+
+    with Cluster("Client"):
+        user = Custom("User", "./icons/user.png")
+
+    with Cluster("IdP"):
+        idp = Custom("Identity Provider", "./icons/idp.png")
+
+    with Cluster("Apps"):
+        apps = Custom("Applications", "./icons/server.png")
+
+    user >> Edge(color="#2ca02c", label="1. Authenticate once") >> idp
+    idp >> Edge(color="#2ca02c", label="2. Assertion / Token") >> apps
+```
+**EXAMPLE 11: Token-based Authentication Flow**
+This example illustrates a token-based authentication flow, showing the interaction between the user, authentication server, and resource server.
+
+```python
+from diagrams import Diagram, Cluster, Edge
+from diagrams.custom import Custom
+
+with Diagram("Token-based Authentication", show=False, direction="LR", filename="token-based_authentication_icons", graph_attr={{"fontsize": "{fontsize}", "bgcolor": "{bgcolor}", "rankdir": "{layout_dir}"}}):
+
+    with Cluster("Client Side"):
+        user = Custom("User", "./icons/user.png")
+
+    with Cluster("Auth Server"):
+        auth = Custom("Auth Server", "./icons/server.png")
+
+    with Cluster("Resource Server"):
+        api = Custom("API Resource", "./icons/api.png")
+
+    user >> Edge(color="#9467bd", label="1. Request Token") >> auth
+    auth >> Edge(color="#9467bd", label="2. Return Token") >> user
+    user >> Edge(color="#9467bd", label="3. Request Resource w/ Token") >> api
+```
 
 ---
 
