@@ -133,7 +133,7 @@ with Diagram("Serverless Web App", show=False, filename="azure_serverless_web_ap
         web_app >> auth_service
         logic_functions >> Edge(label="read/write") >> database
     
-    ActiveDirectory("Azure AD") >> Edge(label="Authentication") >> auth_service
+    ActiveDirectory >> Edge(label="Authentication") >> auth_service
 ```
     
 **EXAMPLE 3: Real-time Data Pipeline**
